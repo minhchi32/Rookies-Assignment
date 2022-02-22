@@ -16,4 +16,16 @@ public class eCommerceContext : DbContext
     public DbSet<ProductColorSize> ProductColorSizes { get; set; }
     public DbSet<Rate> Rates { get; set; }
     public DbSet<Slide> Slides { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductColorConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductColorSizeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductColorImageConfiguration());
+        modelBuilder.ApplyConfiguration(new RateConfiguration());
+        modelBuilder.ApplyConfiguration(new SlideConfiguration());
+    }
 }
