@@ -1,4 +1,5 @@
 using eCommerce.Backend.Configurations;
+using eCommerce.Backend.Extensions;
 using eCommerce.Backend.Models;
 using Microsoft.EntityFrameworkCore;
 namespace eCommerce.Backend.Data;
@@ -18,6 +19,7 @@ public class eCommerceContext : DbContext
     public DbSet<Slide> Slides { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //Configure using Fluent API
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
@@ -27,5 +29,13 @@ public class eCommerceContext : DbContext
         modelBuilder.ApplyConfiguration(new ProductColorImageConfiguration());
         modelBuilder.ApplyConfiguration(new RateConfiguration());
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
+
+        //Data seeding
+        modelBuilder.Seed();
+
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.EnableSensitiveDataLogging();
+}
 }

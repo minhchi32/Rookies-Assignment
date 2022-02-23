@@ -6,6 +6,7 @@ public class ProductColorImage
 {
     public int ID { get; set; }
     public string Name { get; set; }
+    public string PathImage { get; set; }
     public int ProductColorID { get; set; }
     public ProductColor ProductColor { get; set; }
     public Status Status { get; set; }

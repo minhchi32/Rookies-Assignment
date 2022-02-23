@@ -9,7 +9,6 @@ public class ProductColorSize
     public int ProductColorID { get; set; }
     public ProductColor ProductColor { get; set; }
     public int Quantity { get; set; }
-    public int QuantitySale { get; set; }
     public Status Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
