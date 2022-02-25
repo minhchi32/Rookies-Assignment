@@ -1,0 +1,11 @@
+global using System;
+global using System.Collections.Generic;
+global using Microsoft.EntityFrameworkCore;
+global using eCommerce.Backend.Models;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using RookieShop.Shared.Enums;
+global using Microsoft.EntityFrameworkCore.Design;
+global using System.Diagnostics;
+global using Microsoft.AspNetCore.Mvc;
+global using eCommerce.Backend.Configurations;
+global using eCommerce.Backend.Extensions;

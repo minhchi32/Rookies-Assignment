@@ -1,7 +1,3 @@
-using eCommerce.Backend.Configurations;
-using eCommerce.Backend.Extensions;
-using eCommerce.Backend.Models;
-using Microsoft.EntityFrameworkCore;
 namespace eCommerce.Backend.Data;
 public class eCommerceContext : DbContext
 {
