@@ -31,7 +31,7 @@ public class eCommerceContext : DbContext
 
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-{
-    optionsBuilder.EnableSensitiveDataLogging();
-}
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
 }

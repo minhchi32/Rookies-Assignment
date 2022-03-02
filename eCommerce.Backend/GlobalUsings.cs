@@ -9,3 +9,6 @@ global using System.Diagnostics;
 global using Microsoft.AspNetCore.Mvc;
 global using eCommerce.Backend.Configurations;
 global using eCommerce.Backend.Extensions;
+global using eCommerce.Backend.ViewModel.Products;
+global using eCommerce.Backend.Data;
+global using eCommerce.Shared.DTO;
