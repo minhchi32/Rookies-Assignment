@@ -20,10 +20,9 @@ public class ManageProductService : IManageProductService
     public async Task<bool> AddQuantitySale(int id)
     {
         var product = await context.Products.FindAsync(id);
-        if (product == null) throw new NullReferenceException($"Không tìm thấy sản phẩm có mã {id}");
+        if (product == null) throw new NullReferenceException(MessageConstants.ProductNotExistID + id);
 
         product.QuantitySale++;
-        // context.Products.Update(product);
         return await context.SaveChangesAsync() > 0;
     }
 
@@ -40,20 +39,21 @@ public class ManageProductService : IManageProductService
             SeoDescription = request.SeoDescription,
         };
         context.Products.Add(product);
-        return await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
+        return product.ID;
     }
 
     public async Task<int> Delete(int id)
     {
         var product = await context.Products.FindAsync(id);
-        if (product == null) throw new NullReferenceException($"Không tìm thấy sản phẩm có mã {id}");
+        if (product == null) throw new NullReferenceException(MessageConstants.ProductNotExistID + id);
         product.DeletedAt = DateTime.Now;
         product.Status = Status.Deleted;
         context.Products.Update(product);
         return await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResultDTO<ProductViewDTO>> GetAllPaging(GetProductPagingRequest request)
+    public async Task<PagedResultDTO<ProductVM>> GetAllPaging(GetProductPagingRequest request)
     {
         var query = await context.Products.ToListAsync();
         if (request.CategoryID.HasValue && request.CategoryID > 0)
@@ -61,32 +61,36 @@ public class ManageProductService : IManageProductService
         if (!String.IsNullOrEmpty(request.Keyword))
             query = query.Where(x => x.Name.ToLower().Contains(request.Keyword.ToLower())).ToList();
 
-        var result = from p in query
-                     join pc in context.ProductColors on p.ID equals pc.ProductID
-                     join pcs in context.ProductColorSizes on pc.ID equals pcs.ProductColorID
-                     join pci in context.ProductColorImages on pc.ID equals pci.ProductColorID
-                     select new { p, pc, pcs, pci };
-
-        int totalRow = result.Count();
-        var data = result.Skip((request.PageIndex - 1) * request.PageSize)
+        int totalRow = query.Count();
+        var data = query.Skip((request.PageIndex - 1) * request.PageSize)
                         .Take(request.PageSize)
-                        .Select(x => new ProductViewDTO()
+                        .Select(x => new ProductVM()
                         {
-                            ID = x.p.ID,
-                            Name = x.p.Name,
-                            Description = x.p.Description,
-                            Price = x.p.Price,
-                            DecreasedPrice = x.p.DecreasedPrice,
-                            CategoryID = x.p.CategoryID,
-                            SeoTitle = x.p.SeoTitle,
-                            SeoDescription = x.p.SeoDescription,
-                            QuantitySale = x.p.QuantitySale,
-                            TotalPointRate = x.p.TotalPointRate,
-                            CountRate = x.p.CountRate,
+                            ID = x.ID,
+                            Name = x.Name,
+                            Description = x.Description,
+                            Price = x.Price,
+                            DecreasedPrice = x.DecreasedPrice,
+                            CategoryID = x.CategoryID,
+                            SeoTitle = x.SeoTitle,
+                            SeoDescription = x.SeoDescription,
+                            QuantitySale = x.QuantitySale,
+                            TotalPointRate = x.TotalPointRate,
+                            CountRate = x.CountRate,
+                            ProductColors = context.ProductColors.Where(pc => pc.ProductID == x.ID)
+                                                                .Select(pc => new ProductColorVM()
+                                                                {
+                                                                    ID = pc.ID,
+                                                                    Name = pc.Name,
+                                                                    PathImage = pc.PathImage,
+                                                                    ProductID = x.ID,
+                                                                    ProductColorImages = null,
+                                                                    ProductColorSizes = null,
+                                                                }).ToList(),
                         })
                         .ToList();
 
-        var pagedResult = new PagedResultDTO<ProductViewDTO>()
+        var pagedResult = new PagedResultDTO<ProductVM>()
         {
             TotalRecord = totalRow,
             Items = data
@@ -94,11 +98,24 @@ public class ManageProductService : IManageProductService
         return pagedResult;
     }
 
-    public async Task<ProductViewDTO> GetByID(int id)
+    public async Task<ProductVM> GetByID(int id, int colorID = 0)
     {
         var product = await context.Products.FindAsync(id);
         if (product != null)
-            return new ProductViewDTO()
+        {
+            var productColor = colorID == 0 ? null : await context.ProductColors
+                                                            .Where(x => x.ProductID == product.ID)
+                                                            .Select(pc => new ProductColorVM()
+                                                            {
+                                                                ID = pc.ID,
+                                                                Name = pc.Name,
+                                                                PathImage = pc.PathImage,
+                                                                ProductID = product.ID,
+                                                                ProductColorImages = null,
+                                                                ProductColorSizes = null,
+                                                            }
+                                                            ).ToListAsync();
+            return new ProductVM()
             {
                 ID = product.ID,
                 Name = product.Name,
@@ -111,14 +128,16 @@ public class ManageProductService : IManageProductService
                 QuantitySale = product.QuantitySale,
                 TotalPointRate = product.TotalPointRate,
                 CountRate = product.CountRate,
+                ProductColors = productColor,
             };
+        }
         return null;
     }
 
     public async Task<int> Update(ProductUpdateRequest request)
     {
         var product = await context.Products.FindAsync(request.ID);
-        if (product == null) throw new NullReferenceException($"Không tìm thấy sản phẩm có mã {request.ID}");
+        if (product == null) throw new NullReferenceException(MessageConstants.ProductNotExistID + request.ID);
 
         product.Name = request.Name;
         product.Description = request.Description;
@@ -129,6 +148,7 @@ public class ManageProductService : IManageProductService
         product.SeoDescription = request.SeoDescription;
         product.Status = request.Status;
         product.ModifiedAt = DateTime.Now;
+        context.Products.Update(product);
 
         return await context.SaveChangesAsync();
     }

@@ -12,3 +12,6 @@ global using eCommerce.Backend.Extensions;
 global using eCommerce.Backend.ViewModel.Products;
 global using eCommerce.Backend.Data;
 global using eCommerce.Shared.DTO;
+global using eCommerce.Shared.Constants;
+global using eCommerce.Backend.Services.Products;
+global using eCommerce.Backend.ViewModel.ProductColors;

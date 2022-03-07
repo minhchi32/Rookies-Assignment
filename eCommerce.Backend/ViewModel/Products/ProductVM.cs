@@ -1,6 +1,6 @@
 namespace eCommerce.Backend.ViewModel.Products;
 
-public class ProductViewDTO
+public class ProductVM
 {
     public int ID { get; set; }
     public string Name { get; set; }
@@ -13,4 +13,5 @@ public class ProductViewDTO
     public int QuantitySale { get; set; }
     public int TotalPointRate { get; set; }
     public int CountRate { get; set; }
+    public List<ProductColorVM> ProductColors { get; set; }
 }
