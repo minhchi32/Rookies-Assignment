@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using eCommerce.Backend.Models;
-
-namespace eCommerce.Backend.Controllers;
+﻿namespace eCommerce.Backend.Controllers;
 
 public class HomeController : Controller
 {

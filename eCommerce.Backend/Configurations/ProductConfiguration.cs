@@ -1,8 +1,3 @@
-using eCommerce.Backend.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RookieShop.Shared.Enums;
-
 namespace eCommerce.Backend.Configurations;
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
