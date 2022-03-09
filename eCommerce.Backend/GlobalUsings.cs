@@ -15,3 +15,8 @@ global using eCommerce.Shared.DTO;
 global using eCommerce.Shared.Constants;
 global using eCommerce.Backend.Services.Products;
 global using eCommerce.Backend.ViewModel.ProductColors;
+global using eCommerce.Backend.ViewModel.ProductColorImages;
+global using eCommerce.Backend.ViewModel.ProductColorSizes;
+global using eCommerce.Backend.Common;
+global using System.Net.Http.Headers;
+global using eCommerce.Backend.Services.ProductColors;

@@ -55,7 +55,7 @@ public class ManageProductService : IManageProductService
 
     public async Task<PagedResultDTO<ProductVM>> GetAllPaging(GetProductPagingRequest request)
     {
-        var query = await context.Products.ToListAsync();
+        var query = await context.Products.Where(x=>x.Status==Status.Show).ToListAsync();
         if (request.CategoryID.HasValue && request.CategoryID > 0)
             query = query.Where(x => x.CategoryID == request.CategoryID).ToList();
         if (!String.IsNullOrEmpty(request.Keyword))
@@ -77,7 +77,7 @@ public class ManageProductService : IManageProductService
                             QuantitySale = x.QuantitySale,
                             TotalPointRate = x.TotalPointRate,
                             CountRate = x.CountRate,
-                            ProductColors = context.ProductColors.Where(pc => pc.ProductID == x.ID)
+                            ProductColors = context.ProductColors.Where(pc => pc.ProductID == x.ID &&x.Status==Status.Show)
                                                                 .Select(pc => new ProductColorVM()
                                                                 {
                                                                     ID = pc.ID,
@@ -104,7 +104,7 @@ public class ManageProductService : IManageProductService
         if (product != null)
         {
             var productColor = colorID == 0 ? null : await context.ProductColors
-                                                            .Where(x => x.ProductID == product.ID)
+                                                            .Where(x => x.ProductID == product.ID&&x.Status==Status.Show)
                                                             .Select(pc => new ProductColorVM()
                                                             {
                                                                 ID = pc.ID,
