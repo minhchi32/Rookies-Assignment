@@ -9,7 +9,7 @@ public class PublicProductService : IPublicProductService
 
     public async Task<List<ProductVM>> GetAll()
     {
-        var result = await context.Products.Include(x => x.ProductColors).ToListAsync();
+        var result = await context.Products.Where(x=>x.Status==Status.Show).Include(x => x.ProductColors).ToListAsync();
 
         var data = result.Select(x => new ProductVM()
         {
@@ -24,7 +24,7 @@ public class PublicProductService : IPublicProductService
             QuantitySale = x.QuantitySale,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,
-            ProductColors = x.ProductColors.Select(pc => new ProductColorVM()
+            ProductColors = x.ProductColors.Where(x=>x.Status==Status.Show).Select(pc => new ProductColorVM()
             {
                 ID = pc.ID,
                 Name = pc.Name,
@@ -40,7 +40,7 @@ public class PublicProductService : IPublicProductService
 
     public async Task<PagedResultDTO<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
     {
-        var query = await context.Products.ToListAsync();
+        var query = await context.Products.Where(x=>x.Status==Status.Show).ToListAsync();
         if (request.CategoryID.HasValue && request.CategoryID > 0)
             query = query.Where(x => x.CategoryID == request.CategoryID).ToList();
 

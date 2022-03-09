@@ -9,6 +9,8 @@ builder.Services.AddDbContext<eCommerceContext>(option =>
 //Declare DI
 builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IFileStorageService, FileStorageService>();
+builder.Services.AddTransient<IProductColorService, ProductColorService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>

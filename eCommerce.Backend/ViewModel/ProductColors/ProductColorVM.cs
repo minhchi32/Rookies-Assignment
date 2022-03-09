@@ -6,6 +6,6 @@ public class ProductColorVM
     public string Name { get; set; }
     public string PathImage { get; set; }
     public int ProductID { get; set; }
-    public List<ProductColorImage> ProductColorImages { get; set; }
-    public List<ProductColorSize> ProductColorSizes { get; set; }
+    public List<ProductColorImageVM> ProductColorImages { get; set; }
+    public List<ProductColorSizeVM> ProductColorSizes { get; set; }
 }
