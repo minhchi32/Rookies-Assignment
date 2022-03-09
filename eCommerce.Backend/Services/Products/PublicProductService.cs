@@ -9,7 +9,9 @@ public class PublicProductService : IPublicProductService
 
     public async Task<List<ProductVM>> GetAll()
     {
-        var result = await context.Products.Where(x=>x.Status==Status.Show).Include(x => x.ProductColors).ToListAsync();
+        var result = await context.Products.Where(x => x.Status == Status.Show)
+                                            .Include(x => x.ProductColors)
+                                            .ToListAsync();
 
         var data = result.Select(x => new ProductVM()
         {
@@ -20,19 +22,19 @@ public class PublicProductService : IPublicProductService
             DecreasedPrice = x.DecreasedPrice,
             CategoryID = x.CategoryID,
             SeoTitle = x.SeoTitle,
-            SeoDescription = x.SeoDescription,
             QuantitySale = x.QuantitySale,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,
-            ProductColors = x.ProductColors.Where(x=>x.Status==Status.Show).Select(pc => new ProductColorVM()
-            {
-                ID = pc.ID,
-                Name = pc.Name,
-                PathImage = pc.PathImage,
-                ProductID = x.ID,
-                ProductColorImages = null,
-                ProductColorSizes = null,
-            }).ToList(),
+            ProductColors = x.ProductColors.Where(x => x.Status == Status.Show)
+                                            .Select(pc => new ProductColorVM()
+                                            {
+                                                ID = pc.ID,
+                                                Name = pc.Name,
+                                                PathImage = pc.PathImage,
+                                                ProductID = x.ID,
+                                                ProductColorImages = null,
+                                                ProductColorSizes = null,
+                                            }).ToList(),
         }).ToList();
 
         return data;
@@ -40,7 +42,7 @@ public class PublicProductService : IPublicProductService
 
     public async Task<PagedResultDTO<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
     {
-        var query = await context.Products.Where(x=>x.Status==Status.Show).ToListAsync();
+        var query = await context.Products.Where(x => x.Status == Status.Show).ToListAsync();
         if (request.CategoryID.HasValue && request.CategoryID > 0)
             query = query.Where(x => x.CategoryID == request.CategoryID).ToList();
 
@@ -58,7 +60,6 @@ public class PublicProductService : IPublicProductService
                             DecreasedPrice = x.DecreasedPrice,
                             CategoryID = x.CategoryID,
                             SeoTitle = x.SeoTitle,
-                            SeoDescription = x.SeoDescription,
                             QuantitySale = x.QuantitySale,
                             TotalPointRate = x.TotalPointRate,
                             CountRate = x.CountRate,

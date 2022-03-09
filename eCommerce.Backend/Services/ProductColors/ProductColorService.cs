@@ -24,20 +24,20 @@ public class ProductColorService : IProductColorService
         return productColor.ID;
     }
 
-    public async Task<int> Delete(int id)
+    public async Task<int> Delete(int productColorID)
     {
-        var productColor = await context.ProductColors.FindAsync(id);
+        var productColor = await context.ProductColors.FindAsync(productColorID);
         if (productColor == null)
-            throw new NullReferenceException(MessageConstants.ProductNotExistID + id);
+            throw new NullReferenceException(MessageConstants.ProductNotExistID + productColorID);
         productColor.DeletedAt = DateTime.Now;
         productColor.Status = Status.Deleted;
         context.ProductColors.Update(productColor);
         return await context.SaveChangesAsync();
     }
 
-    public async Task<ProductColorVM> GetByID(int id)
+    public async Task<ProductColorVM> GetByID(int productColorID)
     {
-        var productColor = await context.ProductColors.FindAsync(id);
+        var productColor = await context.ProductColors.FindAsync(productColorID);
         if (productColor != null)
         {
             var productColorImage = await context.ProductColorImages
@@ -96,9 +96,9 @@ public class ProductColorService : IProductColorService
         return $"/{FolderConstant.imageFolderName}/{fileName}";
     }
 
-    public async Task<List<ProductColorVM>> GetListImage(int id)
+    public async Task<List<ProductColorVM>> GetListImage(int productID)
     {
-        var result = await context.ProductColors.Where(x => x.ProductID == id && x.Status == Status.Show)
+        var result = await context.ProductColors.Where(x => x.ProductID == productID && x.Status == Status.Show)
                                                 .Include(x => x.ProductColorImages)
                                                 .Include(x => x.ProductColorSizes)
                                                 .Select(x => new ProductColorVM()

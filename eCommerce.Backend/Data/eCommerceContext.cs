@@ -27,7 +27,12 @@ public class eCommerceContext : DbContext
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
 
         //Data seeding
-        modelBuilder.Seed();
+        modelBuilder.SeedCategoryData();
+        modelBuilder.SeedProductData();
+        modelBuilder.SeedProductColorData();
+        modelBuilder.SeedProductColorImageData();
+        modelBuilder.SeedProductColorSizeData();
+        modelBuilder.SeedRateData();
 
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

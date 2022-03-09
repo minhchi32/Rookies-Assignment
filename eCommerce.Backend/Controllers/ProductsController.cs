@@ -14,23 +14,23 @@ public class ProductsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
         var products = await publicProductService.GetAll();
         return Ok(products);
     }
 
     [HttpGet("paging")]
-    public async Task<IActionResult> Get([FromQuery] GetProductPagingRequest request)
+    public async Task<IActionResult> GetAllPaging([FromQuery] GetProductPagingRequest request)
     {
         var products = await publicProductService.GetAllByCategoryID(request);
         return Ok(products);
     }
 
-    [HttpPost("{id}/{colorID}")]
-    public async Task<IActionResult> GetByID(int id, int colorID)
+    [HttpPost("{productID}/{colorID}")]
+    public async Task<IActionResult> GetByID(int productID, int colorID)
     {
-        var product = await manageProductService.GetByID(id, colorID);
+        var product = await manageProductService.GetByID(productID, colorID);
         if (product == null) return BadRequest(MessageConstants.ProductNotExist);
         return Ok(product);
     }
@@ -54,25 +54,25 @@ public class ProductsController : Controller
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpPut("{productID}")]
+    public async Task<IActionResult> Delete(int productID)
     {
-        var result = await manageProductService.Delete(id);
+        var result = await manageProductService.Delete(productID);
         if (result == 0) return BadRequest();
         return Ok();
     }
 
-    [HttpPatch("addQuantitySale/{id}")]
-    public async Task<IActionResult> UpdateQuantitySale(int id)
+    [HttpPatch("addQuantitySale/{productID}")]
+    public async Task<IActionResult> UpdateQuantitySale(int productID)
     {
-        var isSuccessful = await manageProductService.AddQuantitySale(id);
+        var isSuccessful = await manageProductService.AddQuantitySale(productID);
         return isSuccessful ? Ok() : BadRequest();
     }
 
-    [HttpPatch("addPointRate/{id}/{pointRate}")]
-    public async Task<IActionResult> UpdatePointRate(int id, int pointRate)
+    [HttpPatch("addPointRate/{productID}/{pointRate}")]
+    public async Task<IActionResult> UpdatePointRate(int productID, int pointRate)
     {
-        var isSuccessful = await manageProductService.AddPointRate(id, pointRate);
+        var isSuccessful = await manageProductService.AddPointRate(productID, pointRate);
         return isSuccessful ? Ok() : BadRequest();
     }
 }

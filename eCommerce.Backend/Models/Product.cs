@@ -12,7 +12,6 @@ public class Product
     public int CategoryID { get; set; }
     public Category Category { get; set; }
     public string SeoTitle { get; set; }
-    public string SeoDescription { get; set; }
     public int QuantitySale { get; set; }
     public int TotalPointRate { get; set; }
     public int CountRate { get; set; }

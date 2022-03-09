@@ -3,8 +3,8 @@ public interface IProductColorService
 {
     Task<int> Create(ProductColorCreateRequest request);
     Task<int> Update(ProductColorUpdateRequest request);
-    Task<int> Delete(int id);
+    Task<int> Delete(int productColorID);
     Task<List<ProductColorVM>> GetAll();
-    Task<ProductColorVM> GetByID(int id);
-    Task<List<ProductColorVM>> GetListImage(int id);
+    Task<ProductColorVM> GetByID(int productColorID);
+    Task<List<ProductColorVM>> GetListImage(int productID);
 }

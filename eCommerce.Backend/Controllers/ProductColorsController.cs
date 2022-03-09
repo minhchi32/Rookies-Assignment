@@ -12,16 +12,16 @@ public class ProductColorsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
         var products = await productColorService.GetAll();
         return Ok(products);
     }
 
-    [HttpPost("{id}")]
-    public async Task<IActionResult> GetByID(int id)
+    [HttpPost("{productColorID}")]
+    public async Task<IActionResult> GetByID(int productColorID)
     {
-        var product = await productColorService.GetByID(id);
+        var product = await productColorService.GetByID(productColorID);
         if (product == null) return BadRequest(MessageConstants.ProductNotExist);
         return Ok(product);
     }
@@ -45,10 +45,10 @@ public class ProductColorsController : Controller
         return Ok();
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    [HttpPut("{productColorID}")]
+    public async Task<IActionResult> Delete(int productColorID)
     {
-        var result = await productColorService.Delete(id);
+        var result = await productColorService.Delete(productColorID);
         if (result == 0) return BadRequest();
         return Ok();
     }
