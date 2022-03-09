@@ -2,8 +2,20 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Connect database
+builder.Services.AddDbContext<eCommerceContext>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.MainConnectionString)));
+
+//Declare DI
+builder.Services.AddTransient<IPublicProductService, PublicProductService>();
+builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IFileStorageService, FileStorageService>();
+builder.Services.AddTransient<IProductColorService, ProductColorService>();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -11,19 +23,8 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "ToDo API",
-        Description = "An ASP.NET Core Web API for managing ToDo items",
-        TermsOfService = new Uri("https://example.com/terms"),
-        Contact = new OpenApiContact
-        {
-            Name = "Example Contact",
-            Url = new Uri("https://example.com/contact")
-        },
-        License = new OpenApiLicense
-        {
-            Name = "Example License",
-            Url = new Uri("https://example.com/license")
-        }
+        Title = "eCommerce API",
+        Description = "An ASP.NET Core Web API for managing eCommerce items",
     });
 });
 
