@@ -1,0 +1,15 @@
+﻿@using eCommerce.Shared.DTO;
+@model PagedResult<eCommerce.Backend.ViewModel.Products.ProductVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @await Component.InvokeAsync("ItemProduct", Model.Items)
+    </div>
+</div>
+
+@await Component.InvokeAsync("Pager", Model)

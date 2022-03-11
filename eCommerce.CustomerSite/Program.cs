@@ -1,8 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
+using eCommerce.CustomerSite.Service.Products;
+using System.Linq;
 
+var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
+IWebHostEnvironment environment = builder.Environment;
+builder.Services.AddHttpClient();
 // Add services to the container.
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<IProductService, ProductService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,8 +27,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+// app.MapRazorPages();
 
+app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+            });
 app.Run();

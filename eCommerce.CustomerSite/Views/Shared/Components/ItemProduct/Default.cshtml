@@ -1,0 +1,102 @@
+﻿@model List<eCommerce.Backend.ViewModel.Products.ProductVM>
+
+<style>
+    .input-hidden {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    input[type=radio]:checked + label > img {
+        margin-right: 20px;
+        width: 12px;
+        height: 12px;
+        border-radius: 7px;
+    }
+
+    .set-bg {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: top center;
+    }
+</style>
+<script>
+    $(".product__color__select label, .shop__sidebar__size label, .product__details__option__size label").on('click', function () {
+        $(".product__color__select label, .shop__sidebar__size label, .product__details__option__size label").removeClass('active');
+        $(this).addClass('active');
+    });
+
+        $('.set-bg').each(function () {
+        var bg = $(this).data('setbg');
+        $(this).css('background-image', 'url(' + bg + ')');
+    });
+</script>
+@foreach (var item in Model)
+        {
+            <div class="col-12 col-lg-3 col-md-6 mb-4">
+                <div class="product__item">
+                    @{
+                        var image = item.ProductColors?.ElementAtOrDefault(0)?.ProductColorImages?.ElementAtOrDefault(0)?.PathImage ?? "";
+                    }
+                    <div class="product__item__pic set-bg" style="background-image:url(@image);" data-setbg="@image">
+                        <ul class="product__hover">
+                            <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6 class="dress-name" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; ">@item.Name</h6>
+                        <a href="#" class="add-cart">+ Add To Cart</a>
+                        <div class="rating">
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        @if (item.DecreasedPrice > 0)
+                        {
+                            <h8 class=" text-left"><del>@String.Format("{0:0,0}", item.Price)<span>đ</span></del></h8>
+
+                            <br />
+                            <h4 class="text-left" style="color:red; float:left">@String.Format("{0:0,0}", item.DecreasedPrice)<span>đ</span></h4>
+                        }
+                        else
+                        {
+                            <br />
+                            <h4 style="color:red; float:left">@String.Format("{0:0,0}", item.Price)<span>đ</span></h4>
+                        }
+                        <div class="product__color__select">
+                            @for (int i = 0; i < item.ProductColors?.Count(); i++)
+                            {
+                                <span style="margin-right:10px;">
+                                    <input type="radio" name="emotion" id="sp-@item.ID-@item.ProductColors[i].ID" class="input-hidden" />
+                                    <label for="sp-@item.ID-@item.ProductColors[i].ID" class="@if( i == 0) {
+                            <text>active</text>
+}">
+                                        <img src="@item.ProductColors[i].PathImage" alt="@item.ProductColors[i].Name" style="height:25px;width:25px" />
+                                    </label>
+                                </span>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-1" style="float:right">
+                            <div>
+                                <i class="fa-solid fa-star" style="color:#EE0033"></i>
+                                @if (item.CountRate > 0)
+                                {
+                                    <span class="rating-number" style="margin-right:5px">@(Math.Round(@item.TotalPointRate * 1.0 / @item.CountRate,1))</span>
+                                }
+                                else
+                                {
+                                    <span class="rating-number" style="margin-right:5px">Chưa có đánh giá</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        

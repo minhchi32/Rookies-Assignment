@@ -1,5 +1,5 @@
 namespace eCommerce.Backend.Services.Products;
-public interface IManageProductService
+public interface IProductService
 {
     Task<int> Create(ProductCreateRequest request);
     Task<int> Update(ProductUpdateRequest request);
@@ -7,5 +7,8 @@ public interface IManageProductService
     Task<ProductVM> GetByID(int productID, int colorID = 0);
     Task<bool> AddQuantitySale(int productID);
     Task<bool> AddPointRate(int productID, int pointRate);
-    Task<PagedResultDTO<ProductVM>> GetAllPaging(GetProductPagingRequest request);
+    Task<PagedResult<ProductVM>> GetAllPaging(GetProductPagingRequest request);
+    Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request);
+    Task<List<ProductVM>> GetAll();
+    Task<List<ProductVM>> Get4Product();
 }

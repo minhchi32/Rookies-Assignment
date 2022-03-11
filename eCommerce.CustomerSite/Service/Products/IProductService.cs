@@ -1,0 +1,11 @@
+using eCommerce.Backend.ViewModel.Products;
+using eCommerce.Shared.DTO;
+
+namespace eCommerce.CustomerSite.Service.Products;
+public interface IProductService
+{
+
+    Task<List<ProductVM>> Get4Product();
+
+    Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request);
+}

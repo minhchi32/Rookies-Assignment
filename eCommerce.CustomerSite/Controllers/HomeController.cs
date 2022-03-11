@@ -1,21 +1,23 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using eCommerce.CustomerSite.Models;
+using eCommerce.CustomerSite.Service.Products;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.CustomerSite.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    readonly IProductService productService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IProductService productService)
     {
-        _logger = logger;
+        this.productService = productService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var product = await productService.Get4Product();
+        return View(product);
     }
 
     public IActionResult Privacy()
