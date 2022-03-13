@@ -8,4 +8,5 @@ public interface IProductService
     Task<List<ProductVM>> Get4Product();
 
     Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request);
+    Task<ProductVM> ProductDetail(int productID, int colorID);
 }

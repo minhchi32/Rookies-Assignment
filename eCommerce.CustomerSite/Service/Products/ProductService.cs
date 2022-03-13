@@ -35,4 +35,14 @@ public class ProductService : IProductService
         return products;
 
     }
+
+    public async Task<ProductVM> ProductDetail(int productID, int colorID)
+    {
+        var client = clientFactory.CreateClient();
+        client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
+        var response = await client.GetAsync($"/api/Products/{productID}/{colorID}");
+        var body = await response.Content.ReadAsStringAsync();
+        var product = JsonConvert.DeserializeObject<ProductVM>(body);
+        return product;
+    }
 }

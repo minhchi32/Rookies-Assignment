@@ -23,9 +23,9 @@ public class ProductController : Controller
         var product = await productService.GetAllByCategoryID(request);
         return View(product);
     }
-    public async Task<IActionResult> Index1()
+    public async Task<IActionResult> Detail(int productID, int colorID)
     {
-        var product = await productService.Get4Product();
+        var product = await productService.ProductDetail(productID, colorID);
         return View(product);
     }
 }

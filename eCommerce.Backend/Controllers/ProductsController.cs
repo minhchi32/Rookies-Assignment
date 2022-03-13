@@ -32,7 +32,7 @@ public class ProductsController : Controller
         return Ok(products);
     }
 
-    [HttpPost("{productID}/{colorID}")]
+    [HttpGet("{productID}/{colorID}")]
     public async Task<IActionResult> GetByID(int productID, int colorID)
     {
         var product = await productService.GetByID(productID, colorID);

@@ -1,0 +1,273 @@
+﻿@model eCommerce.Backend.ViewModel.Products.ProductVM
+
+@{
+    ViewData["Title"] = "Detail";
+}
+<style>
+    .input-hidden {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    input[type=radio]:checked + label > img {
+        margin-right: 20px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .set-bg {
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: top center;
+    }
+</style>
+<script>
+    $('.set-bg').each(function () {
+        var bg = $(this).data('setbg');
+        $(this).css('background-image', 'url(' + bg + ')');
+    });
+</script>
+<section class="shop-details">
+    <div class="product__details__pic">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product__details__breadcrumb">
+                        <a href="./index.html">Home</a>
+                        <a href="#">Shop</a>
+                        <span>Product Details</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @{
+                    var pc = Model.ProductColors;
+                    if(pc==null)return;
+                    var pci = pc[0].ProductColorImages;
+                    if(pci==null)return;
+                    var pci1 = pci.Where(x => x.ProductColorID == pc[0].ID).ToList();
+
+                    <div class="col-lg-3 col-md-3">
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        @for (int i = 0; i < pci1.Count(); i++)
+                        {
+                            var check = i == 0 ? "active" : "";
+                            var path = pci1[i].PathImage;
+                            <li class="nav-item">
+                                <a class="nav-link @check" data-toggle="tab" href="#tabs-@i" role="tab">
+                                    <div class="product__thumb__pic set-bg" style="background-image:url(@path);" data-setbg="@path">
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-9">
+                    <div class="tab-content">
+                        @for (int i = 0; i < pci1.Count(); i++)
+                        {
+                            var check = i == 0 ? "active" : "";
+                            var path = pci1[i].PathImage;
+                            <div class="tab-pane @check" id="tabs-@i" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="@path" alt="" style="height: 600px">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+    <div class="product__details__content">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <div class="product__details__text">
+                        <h4>@Model.Name</h4>
+                        <div class="rating">
+                            @if (Model.CountRate == 0)
+                            {
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            }
+                            else
+                            {
+                                var rate = Model.TotalPointRate / Model.CountRate;
+                                for (var i = 0; i < 5; i++)
+                                {
+                                    if (i < rate)
+                                    {
+                                        <i class="fa-solid fa-star"></i>
+                                        continue;
+                                    }
+                                    <i class="fa-regular fa-star"></i>
+                                }
+                            }
+                            <span> - @Model.CountRate Reviews</span>
+                        </div>
+                        @if (Model.DecreasedPrice > 0)
+                        {
+                            <h3>@String.Format("{0:0,0}", Model.DecreasedPrice) đ<span>@String.Format("{0:0,0}", Model.Price)</span></h3>
+                        }
+                        else
+                        {
+                            <h3>@String.Format("{0:0,0}", Model.Price) đ</h3>
+                        }
+                        <p>@Model.Description</p>
+                        <div class="product__details__option">
+                            <div class="product__details__option__size">
+                                <span>Size:</span>
+                                @for (var i = 0; i < Model.ProductColors?.ElementAtOrDefault(0)?.ProductColorSizes.Count(); i++)
+                                {
+                                    var pcs = Model.ProductColors?.ElementAtOrDefault(0)?.ProductColorSizes[i];
+                                    var checkChoose = i == 0 ? "active" : "";
+                                    var checkQuantity = pcs.Quantity > 0 ? "" : "disactive";
+                                    <label for="@pcs.Name" class="@checkChoose @checkQuantity">
+                                        @pcs.Name
+                                        <input type="radio" id="@pcs.Name">
+                                    </label>
+                                }
+                            </div>
+                            <div class="product__details__option__color">
+                                <span>Color:</span>
+                                @for (var i = 0; i < Model.ProductColors.Count(); i++)
+                                {
+                                    var pc1 = Model.ProductColors?[i];
+                                    var checkChoose = i == 0 ? "active" : "";
+                                    <input type="radio" name="emotion" id="c-@pc1.Name" class="input-hidden" />
+                                    <label for="c-@pc1.Name" class="@checkChoose">
+                                        <img src="@pc1.PathImage" alt="@pc1.Name" style="height:25px;width:25px" />
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="product__details__cart__option">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                            <a href="#" class="primary-btn">add to cart</a>
+                        </div>
+                        <div class="product__details__btns__option">
+                            <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                            <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+                        </div>
+                        <div class="product__details__last__option">
+                            <h5><span>Guaranteed Safe Checkout</span></h5>
+                            <img src="img/shop-details/details-payment.png" alt="">
+                            <ul>
+                                <li><span>SKU:</span> 3812912</li>
+                                <li><span>Categories:</span> Clothes</li>
+                                <li><span>Tag:</span> Clothes, Skin, Body</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                   role="tab">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">
+                                    Customer
+                                    Previews(5)
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-7" role="tab">
+                                    Additional
+                                    information
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                <div class="product__details__tab__content">
+                                    <p class="note">
+                                        Nam tempus turpis at metus scelerisque placerat nulla deumantos
+                                        solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
+                                        ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
+                                        pharetras loremos.
+                                    </p>
+                                    <div class="product__details__tab__content__item">
+                                        <h5>Products Infomation</h5>
+                                        <p>
+                                            A Pocket PC is a handheld computer, which features many of the same
+                                            capabilities as a modern PC. These handy little devices allow
+                                            individuals to retrieve and store e-mail messages, create a contact
+                                            file, coordinate appointments, surf the internet, exchange text messages
+                                            and more. Every product that is labeled as a Pocket PC must be
+                                            accompanied with specific software to operate the unit and must feature
+                                            a touchscreen and touchpad.
+                                        </p>
+                                        <p>
+                                            As is the case with any new technology product, the cost of a Pocket PC
+                                            was substantial during it’s early release. For approximately $700.00,
+                                            consumers could purchase one of top-of-the-line Pocket PCs in 2003.
+                                            These days, customers are finding that prices have become much more
+                                            reasonable now that the newness is wearing off. For approximately
+                                            $350.00, a new Pocket PC can now be purchased.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-6" role="tabpanel">
+                                <div class="product__details__tab__content">
+                                    <div class="product__details__tab__content__item">
+                                        <h5>Products Infomation</h5>
+                                        <p>
+                                            A Pocket PC is a handheld computer, which features many of the same
+                                            capabilities as a modern PC. These handy little devices allow
+                                            individuals to retrieve and store e-mail messages, create a contact
+                                            file, coordinate appointments, surf the internet, exchange text messages
+                                            and more. Every product that is labeled as a Pocket PC must be
+                                            accompanied with specific software to operate the unit and must feature
+                                            a touchscreen and touchpad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-7" role="tabpanel">
+                                <div class="product__details__tab__content">
+                                    <p class="note">
+                                        Nam tempus turpis at metus scelerisque placerat nulla deumantos
+                                        solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
+                                        ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
+                                        pharetras loremos.
+                                    </p>
+                                    <div class="product__details__tab__content__item">
+                                        <h5>Products Infomation</h5>
+                                        <p>
+                                            A Pocket PC is a handheld computer, which features many of the same
+                                            capabilities as a modern PC. These handy little devices allow
+                                            individuals to retrieve and store e-mail messages, create a contact
+                                            file, coordinate appointments, surf the internet, exchange text messages
+                                            and more. Every product that is labeled as a Pocket PC must be
+                                            accompanied with specific software to operate the unit and must feature
+                                            a touchscreen and touchpad.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
