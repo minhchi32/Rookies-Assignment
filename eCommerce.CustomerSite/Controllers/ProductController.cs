@@ -13,11 +13,12 @@ public class ProductController : Controller
         this.productService = productService;
     }
 
-    public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 2)
+    public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 2, int categoryID = 0)
     {
         var request = new GetProductPagingRequest(){
             PageIndex =pageIndex,
-            PageSize = pageSize
+            PageSize = pageSize,
+            CategoryID = categoryID,
         };
         var product = await productService.GetAllByCategoryID(request);
         return View(product);
