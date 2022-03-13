@@ -1,0 +1,33 @@
+﻿@model List<eCommerce.Backend.ViewModel.Categories.CategoryVM>
+
+<style>
+    ul.dropdown-multicol {
+        width: 30em;
+    }
+
+    ul.dropdown-multicol>div.dropdown-col {
+        display: inline-block;
+        width: 32%;
+    }
+</style>
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" asp-area="" asp-controller="Category" asp-action="Index" id="navbarDropdown"
+        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Category
+    </a>
+    <ul class="dropdown-menu dropdown-multicol" aria-labelledby="navbarDropdown">
+        @for (int i = 1; i < 4; i++)
+        {
+            <div class="dropdown-col">
+                    @foreach (var item in Model)
+                    {
+                        @if (item.ParentId == i)
+                        {
+                            <li><a class="dropdown-item" href="/Product/CategoryID=@item.ID">@item.Name</a></li>
+                        }
+                    }
+            </div>
+        }
+    </ul>
+</li>

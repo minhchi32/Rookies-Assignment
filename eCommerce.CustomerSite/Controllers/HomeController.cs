@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using eCommerce.CustomerSite.Service.Categories;
 using eCommerce.CustomerSite.Models;
 using eCommerce.CustomerSite.Service.Products;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,12 @@ namespace eCommerce.CustomerSite.Controllers;
 public class HomeController : Controller
 {
     readonly IProductService productService;
+    readonly ICategoryService categoryService;
 
-    public HomeController(IProductService productService)
+    public HomeController(IProductService productService, ICategoryService categoryService)
     {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     public async Task<IActionResult> Index()

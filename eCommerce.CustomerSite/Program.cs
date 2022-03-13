@@ -1,3 +1,4 @@
+using eCommerce.CustomerSite.Service.Categories;
 using eCommerce.CustomerSite.Service.Products;
 using System.Linq;
 
@@ -10,6 +11,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

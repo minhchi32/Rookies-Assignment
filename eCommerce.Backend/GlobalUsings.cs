@@ -20,3 +20,5 @@ global using eCommerce.Backend.ViewModel.ProductColorSizes;
 global using eCommerce.Backend.Common;
 global using System.Net.Http.Headers;
 global using eCommerce.Backend.Services.ProductColors;
+global using eCommerce.Backend.ViewModel.Categories;
+global using eCommerce.Backend.Services.Categories;
