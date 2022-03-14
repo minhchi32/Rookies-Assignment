@@ -1,5 +1,3 @@
-using RookieShop.Shared.Enums;
-
 namespace eCommerce.Backend.Models;
 
 public class Rate
@@ -9,8 +7,8 @@ public class Rate
     public Product Product { get; set; }
     public int Point { get; set; }
     public string Content { get; set; }
-    // public int OrderID { get; set; }
-    // public Order Order { get; set; }
+    public int UserID { get; set; }
+    public AppUser AppUser { get; set; }
     public RateStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
 }
