@@ -50,35 +50,35 @@ public static class ProductColorImageDataInitializer
             new ProductColorImage()
             {
                 ID = 7,
-                ProductColorID = 1,
+                ProductColorID = 2,
                 Name = "",
                 PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/utich_hssop_FS-2.jpg"
             },
             new ProductColorImage()
             {
                 ID = 8,
-                ProductColorID = 1,
+                ProductColorID = 2,
                 Name = "",
                 PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/2_87.jpg"
             },
             new ProductColorImage()
             {
                 ID = 9,
-                ProductColorID = 1,
+                ProductColorID = 2,
                 Name = "",
                 PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/1_79.jpg"
             },
             new ProductColorImage()
             {
                 ID = 10,
-                ProductColorID = 1,
+                ProductColorID = 2,
                 Name = "",
                 PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/face3_73.jpg"
             },
             new ProductColorImage()
             {
                 ID = 11,
-                ProductColorID = 1,
+                ProductColorID = 2,
                 Name = "",
                 PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/4_6.jpg"
             },

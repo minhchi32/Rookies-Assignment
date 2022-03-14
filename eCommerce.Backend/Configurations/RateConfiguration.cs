@@ -11,5 +11,6 @@ public class RateConfiguration : IEntityTypeConfiguration<Rate>
         builder.Property(x => x.Status).HasDefaultValue(RateStatus.Pending);
         builder.Property(x => x.CreatedAt).HasDefaultValue(DateTime.Now);
         builder.HasOne(c => c.Product).WithMany(x => x.Rates).HasForeignKey(x => x.ProductID);
+        builder.HasOne(c => c.AppUser).WithMany(x => x.Rates).HasForeignKey(x => x.UserID);
     }
 }

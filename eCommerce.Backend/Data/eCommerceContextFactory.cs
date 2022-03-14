@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
 namespace eCommerce.Backend.Data;
 public class eCommerceContextFactory : IDesignTimeDbContextFactory<eCommerceContext>
 {

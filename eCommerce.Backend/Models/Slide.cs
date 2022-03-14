@@ -1,5 +1,3 @@
-using RookieShop.Shared.Enums;
-
 namespace eCommerce.Backend.Models;
 
 public class Slide

@@ -13,6 +13,8 @@ public class eCommerceContext : DbContext
     public DbSet<ProductColorSize> ProductColorSizes { get; set; }
     public DbSet<Rate> Rates { get; set; }
     public DbSet<Slide> Slides { get; set; }
+    public DbSet<AppUser> AppUsers { get; set; }
+    public DbSet<AppRole> AppRoles { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Configure using Fluent API
@@ -26,12 +28,17 @@ public class eCommerceContext : DbContext
         modelBuilder.ApplyConfiguration(new RateConfiguration());
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
 
+        modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+        modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+
         //Data seeding
         modelBuilder.SeedCategoryData();
         modelBuilder.SeedProductData();
         modelBuilder.SeedProductColorData();
         modelBuilder.SeedProductColorImageData();
         modelBuilder.SeedProductColorSizeData();
+        modelBuilder.SeedAppRoleData();
+        modelBuilder.SeedAppUserData();
         modelBuilder.SeedRateData();
 
     }

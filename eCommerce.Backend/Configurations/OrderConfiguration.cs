@@ -15,5 +15,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.TotalPrice).HasDefaultValue(0);
         builder.Property(x => x.Status).HasDefaultValue(OrderStatus.InProgress);
         builder.Property(x => x.CreatedAt).HasDefaultValue(DateTime.Now);
+        builder.HasOne(c => c.AppUser).WithMany(x => x.Orders).HasForeignKey(x => x.UserID);
     }
 }

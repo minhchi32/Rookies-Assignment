@@ -1,0 +1,22 @@
+﻿@model List<eCommerce.Backend.ViewModel.Rates.RateVM>
+
+@foreach (var item in Model)
+{
+    <div class="card" style="margin-bottom:10px">
+        <div class="card-body">
+            <div style="font-weight:500">@item.AppUser.Name</div>
+
+            @for (var i = 0; i < 5; i++)
+            {
+                if (i < item.Point)
+                {
+                    <i class="fa-solid fa-star"></i>
+                    continue;
+                }
+                <i class="fa-regular fa-star"></i>
+            }
+            <p class="card-text">@item.Content</p>
+            <p class="card-text">@item.CreateAt</p>
+        </div>
+    </div>
+}

@@ -17,10 +17,108 @@ namespace eCommerce.Backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("eCommerce.Backend.Models.AppRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "customer"
+                        });
+                });
+
+            modelBuilder.Entity("eCommerce.Backend.Models.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AppUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Dob = new DateTime(1999, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@admin.com",
+                            Name = "admin",
+                            PasswordHash = "admin",
+                            PhoneNumber = "0123456789",
+                            RoleId = 1,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Dob = new DateTime(2000, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "customer@customer.com",
+                            Name = "customer",
+                            PasswordHash = "customer",
+                            PhoneNumber = "0123456789",
+                            RoleId = 2,
+                            UserName = "customer"
+                        });
+                });
 
             modelBuilder.Entity("eCommerce.Backend.Models.Category", b =>
                 {
@@ -33,7 +131,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(1048));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(838));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -213,7 +311,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(2135));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(2373));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -255,6 +353,8 @@ namespace eCommerce.Backend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -305,7 +405,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(3959));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(7414));
 
                     b.Property<decimal>("DecreasedPrice")
                         .HasColumnType("decimal(18,2)");
@@ -393,7 +493,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(5819));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(25));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -508,7 +608,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(8238));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(3533));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -598,7 +698,7 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "",
                             PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/utich_hssop_FS-2.jpg",
-                            ProductColorID = 1,
+                            ProductColorID = 2,
                             Status = 0
                         },
                         new
@@ -607,7 +707,7 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "",
                             PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/2_87.jpg",
-                            ProductColorID = 1,
+                            ProductColorID = 2,
                             Status = 0
                         },
                         new
@@ -616,7 +716,7 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "",
                             PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/1_79.jpg",
-                            ProductColorID = 1,
+                            ProductColorID = 2,
                             Status = 0
                         },
                         new
@@ -625,7 +725,7 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "",
                             PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/face3_73.jpg",
-                            ProductColorID = 1,
+                            ProductColorID = 2,
                             Status = 0
                         },
                         new
@@ -634,7 +734,7 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "",
                             PathImage = "https://mcdn2-coolmate.cdn.vccloud.vn/uploads/December2021/4_6.jpg",
-                            ProductColorID = 1,
+                            ProductColorID = 2,
                             Status = 0
                         },
                         new
@@ -911,7 +1011,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(7022));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(1791));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -1299,7 +1399,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 60, DateTimeKind.Local).AddTicks(8970));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(4559));
 
                     b.Property<int>("Point")
                         .HasMaxLength(200)
@@ -1313,9 +1413,14 @@ namespace eCommerce.Backend.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Rates", (string)null);
 
@@ -1327,7 +1432,8 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Point = 5,
                             ProductID = 1,
-                            Status = 1
+                            Status = 1,
+                            UserID = 1
                         },
                         new
                         {
@@ -1336,7 +1442,8 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Point = 1,
                             ProductID = 1,
-                            Status = 1
+                            Status = 1,
+                            UserID = 1
                         },
                         new
                         {
@@ -1345,7 +1452,8 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Point = 3,
                             ProductID = 1,
-                            Status = 0
+                            Status = 0,
+                            UserID = 2
                         },
                         new
                         {
@@ -1354,7 +1462,8 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Point = 4,
                             ProductID = 1,
-                            Status = 3
+                            Status = 3,
+                            UserID = 2
                         });
                 });
 
@@ -1369,7 +1478,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 9, 11, 43, 3, 61, DateTimeKind.Local).AddTicks(374));
+                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(8787));
 
                     b.Property<string>("LinkProduct")
                         .IsRequired()
@@ -1392,6 +1501,26 @@ namespace eCommerce.Backend.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Slides", (string)null);
+                });
+
+            modelBuilder.Entity("eCommerce.Backend.Models.AppUser", b =>
+                {
+                    b.HasOne("eCommerce.Backend.Models.AppRole", "AppRole")
+                        .WithMany("AppUsers")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppRole");
+                });
+
+            modelBuilder.Entity("eCommerce.Backend.Models.Order", b =>
+                {
+                    b.HasOne("eCommerce.Backend.Models.AppUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("eCommerce.Backend.Models.OrderDetail", b =>
@@ -1465,7 +1594,27 @@ namespace eCommerce.Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("eCommerce.Backend.Models.AppUser", "AppUser")
+                        .WithMany("Rates")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("eCommerce.Backend.Models.AppRole", b =>
+                {
+                    b.Navigation("AppUsers");
+                });
+
+            modelBuilder.Entity("eCommerce.Backend.Models.AppUser", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Rates");
                 });
 
             modelBuilder.Entity("eCommerce.Backend.Models.Category", b =>
