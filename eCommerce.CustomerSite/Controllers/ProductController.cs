@@ -26,6 +26,7 @@ public class ProductController : Controller
     public async Task<IActionResult> Detail(int productID, int colorID)
     {
         var product = await productService.ProductDetail(productID, colorID);
+        ViewBag.rating = "";
         return View(product);
     }
 }

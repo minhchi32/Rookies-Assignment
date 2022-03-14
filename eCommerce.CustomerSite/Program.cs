@@ -1,5 +1,6 @@
 using eCommerce.CustomerSite.Service.Categories;
 using eCommerce.CustomerSite.Service.Products;
+using eCommerce.CustomerSite.Service.Rates;
 using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IRateService, RateService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
