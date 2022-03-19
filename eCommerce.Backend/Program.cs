@@ -1,5 +1,5 @@
 using Microsoft.OpenApi.Models;
-
+var MyAllowSpecificOrigins = "AllowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 //Connect database
@@ -29,6 +29,15 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins, builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,7 +52,9 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 }
-
+//app.UseHttpsRedirection();
+//app.UseStaticFiles();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();

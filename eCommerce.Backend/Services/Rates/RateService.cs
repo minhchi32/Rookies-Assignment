@@ -32,7 +32,7 @@ public class RateService : IRateService
         return await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<RateVM>> GetAllPaging(GetRatePagingRequest request)
+    public async Task<PagedModelDTO<RateVM>> GetAllPaging(GetRatePagingRequest request)
     {
         var query = await context.Rates.Where(x => x.Status == RateStatus.Approved).ToListAsync();
 
@@ -48,7 +48,7 @@ public class RateService : IRateService
                         })
                         .ToList();
 
-        var pagedResult = new PagedResult<RateVM>()
+        var pagedResult = new PagedModelDTO<RateVM>()
         {
             TotalRecord = totalRow,
             PageIndex = request.PageIndex,

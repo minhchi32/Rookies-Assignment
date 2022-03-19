@@ -5,6 +5,7 @@ public interface ICategoryService
     Task<int> Update(CategoryUpdateRequest request);
     Task<int> Delete(int id);
     Task<CategoryVM> GetByID(int id);
+    Task<PagedModelDTO<CategoryVM>> GetAllWithPaging(PagedResultBase request);
     Task<List<CategoryVM>> GetAll();
-    Task<PagedResult<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request);
+    Task<PagedModelDTO<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request);
 }

@@ -7,5 +7,5 @@ public interface ICategoryService
 {
     Task<CategoryVM> GetByID(int id);
     Task<List<CategoryVM>> GetAll();
-    Task<PagedResult<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request);
+    Task<PagedModelDTO<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request);
 }

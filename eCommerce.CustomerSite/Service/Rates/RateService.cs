@@ -43,13 +43,13 @@ public class RateService : IRateService
         return rates;
     }
 
-    public async Task<PagedResult<RateVM>> GetAllPaging(GetRatePagingRequest request)
+    public async Task<PagedModelDTO<RateVM>> GetAllPaging(GetRatePagingRequest request)
     {
         var client = clientFactory.CreateClient();
         client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
         var response = await client.GetAsync($"/api/Rates/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}");
         var body = await response.Content.ReadAsStringAsync();
-        var rates = JsonConvert.DeserializeObject<PagedResult<RateVM>>(body);
+        var rates = JsonConvert.DeserializeObject<PagedModelDTO<RateVM>>(body);
         return rates;
     }
 

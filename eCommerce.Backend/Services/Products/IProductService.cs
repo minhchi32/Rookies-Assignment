@@ -7,8 +7,8 @@ public interface IProductService
     Task<ProductVM> GetByID(int productID, int colorID = 0);
     Task<bool> AddQuantitySale(int productID);
     Task<bool> AddPointRate(int productID, int pointRate);
-    Task<PagedResult<ProductVM>> GetAllPaging(GetProductPagingRequest request);
-    Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request);
+    Task<PagedModelDTO<ProductVM>> GetAllPaging(GetProductPagingRequest request);
+    Task<PagedModelDTO<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request);
     Task<List<ProductVM>> GetAll();
     Task<List<ProductVM>> Get4Product();
 }

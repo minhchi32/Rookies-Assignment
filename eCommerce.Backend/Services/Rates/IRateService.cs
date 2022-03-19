@@ -6,5 +6,5 @@ public interface IRateService
     Task<int> Delete(int id);
     Task<RateVM> GetByID(int rateID);
     Task<List<RateVM>> GetAllRate(int productID);
-    Task<PagedResult<RateVM>> GetAllPaging(GetRatePagingRequest request);
+    Task<PagedModelDTO<RateVM>> GetAllPaging(GetRatePagingRequest request);
 }

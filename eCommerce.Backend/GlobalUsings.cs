@@ -24,3 +24,5 @@ global using eCommerce.Backend.ViewModel.Categories;
 global using eCommerce.Backend.Services.Categories;
 global using eCommerce.Backend.ViewModel.Rates;
 global using eCommerce.Backend.Services.Rates;
+global using eCommerce.Shared.Enums;
+global using System.Linq.Dynamic.Core;

@@ -12,13 +12,27 @@ public class CategoriesController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] PagedResultBase request)
+    {
+        try
+        {
+            return Ok(await categoryService.GetAllWithPaging(request));
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Error retrieving data from the database");
+        }
+    }
+
+    [HttpGet("all")]
     public async Task<IActionResult> GetAll()
     {
         var categories = await categoryService.GetAll();
         return Ok(categories);
     }
 
-    [HttpPost("{categoryID}")]
+    [HttpGet("{categoryID}")]
     public async Task<IActionResult> GetByID(int categoryID)
     {
         var product = await categoryService.GetByID(categoryID);
@@ -30,14 +44,14 @@ public class CategoriesController : Controller
     public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var categoryID = await categoryService.Create(request);
-        if (categoryID == 0) return BadRequest();
-        var category = await categoryService.GetByID(categoryID);
-        return CreatedAtAction(nameof(GetByID), new { id = categoryID }, category);
+        var result = await categoryService.Create(request);
+        // if (categoryID == 0) return BadRequest();
+        // var category = await categoryService.GetByID(categoryID);
+        return Ok(result);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update([FromForm] CategoryUpdateRequest request)
+    [HttpPut("{categoryID}")]
+    public async Task<IActionResult> Update(int id, [FromForm] CategoryUpdateRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         var result = await categoryService.Update(request);
@@ -45,7 +59,7 @@ public class CategoriesController : Controller
         return Ok();
     }
 
-    [HttpPut("{categoryID}")]
+    [HttpDelete("{categoryID}")]
     public async Task<IActionResult> Delete(int categoryID)
     {
         var result = await categoryService.Delete(categoryID);
