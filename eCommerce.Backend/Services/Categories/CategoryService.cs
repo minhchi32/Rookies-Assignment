@@ -130,6 +130,22 @@ public class CategoryService : ICategoryService
         return data;
     }
 
+    public async Task<IEnumerable<CategoryVM>> GetCategoriesOption(string getParam)
+    {
+        //query
+        var query = await context.Categories.Where(x => x.Status == Status.Show).Take(100).ToListAsync();
+
+        //filter(get category child or parent)
+        if (getParam == "child")
+            query = query.Where(x => x.ParentId != null).ToList();
+        else if (getParam == "parent")
+            query = query.Where(x => x.ParentId == null).ToList();
+        return query.Select(x => new CategoryVM()
+        {
+            ID = x.ID,
+            Name = x.Name,
+        }).ToList();
+    }
     public async Task<PagedModelDTO<CategoryVM>> GetAllWithPaging(PagedResultBase request)
     {
         var query = context.Categories.Where(x => x.Status == Status.Show)
@@ -143,6 +159,8 @@ public class CategoryService : ICategoryService
             ID = x.ID,
             Name = x.Name,
             ParentId = x.ParentId,
+            Status = x.Status,
+
         }).ToList();
 
         return new PagedModelDTO<CategoryVM>

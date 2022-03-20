@@ -9,6 +9,7 @@ public class ProductVM
     public int CategoryID { get; set; }
     public Category Category { get; set; }
     public int QuantitySale { get; set; }
+    public Status Status { get; set; }
     public int TotalPointRate { get; set; }
     public int CountRate { get; set; }
     public List<ProductColorVM> ProductColors { get; set; }

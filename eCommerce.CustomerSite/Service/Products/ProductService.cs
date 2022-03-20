@@ -29,7 +29,7 @@ public class ProductService : IProductService
     {
         var client = clientFactory.CreateClient();
         client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
-        var response = await client.GetAsync($"/api/Products/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}&CategoryID={request.CategoryID}");
+        var response = await client.GetAsync($"/api/Products?PageIndex={request.PageIndex}&PageSize={request.PageSize}&CategoryID={request.CategoryID}");
         var body = await response.Content.ReadAsStringAsync();
         var products = JsonConvert.DeserializeObject<PagedModelDTO<ProductVM>>(body);
         return products;

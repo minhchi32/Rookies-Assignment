@@ -233,6 +233,7 @@ public class ProductService : IProductService
             DecreasedPrice = x.DecreasedPrice,
             CategoryID = x.CategoryID,
             QuantitySale = x.QuantitySale,
+            Status = x.Status,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,
             ProductColors = x.ProductColors.Where(x => x.Status == Status.Show)

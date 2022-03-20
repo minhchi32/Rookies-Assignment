@@ -2,12 +2,12 @@ const Endpoints = {
     authorize: 'api/authorize',
     me: 'api/authorize/me',
 
-    product: 'api/products',
-    productId: (id)=>`api/products/${id}`,
+    product: 'api/Products',
+    productId: (id)=>`api/Products/${id}`,
 
     category: 'api/Categories',
-    categoryOption: (getParam)=>`api/categories/option?getParam=${getParam}`,
-    categoryId: (id)=>`api/categories/${id}`,
+    categoryOption: (getParam)=>`api/Categories/option?getParam=${getParam}`,
+    categoryId: (id)=>`api/Categories/${id}`,
 
 };
 

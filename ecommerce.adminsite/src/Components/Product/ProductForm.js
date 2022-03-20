@@ -7,78 +7,83 @@ import { NotificationManager } from "react-notifications";
 import TextField from "../../Shared-Components/FormInputs/TextField";
 import TextAreaField from "../../Shared-Components/FormInputs/TextAreaField";
 import SelectField from "../../Shared-Components/FormInputs/SelectField";
-import { LIST_CATEGORY } from "../../Constants/pages";
-import {
-	createCategoryRequest,
-	UpdateCategoryRequest,
-} from "./services/request";
+import FileUpload from "../../Shared-Components/FormInputs/FileUpload";
+import { getCategoriesAsync } from "../../Constants/selectOptions";
+import { LIST_PRODUCT } from "../../Constants/pages";
+import { createProductRequest, UpdateProductRequest } from "./services/request";
 import { getCategoriesOptionRequest } from "../Category/services/request";
 
 const initialFormValues = {
 	name: "",
-	description: "",
+	price: "",
+	decreasedPrice: "",
+	categoryId: "",
 };
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required("Required"),
+	price: Yup.string().required("Required"),
+	decreasedPrice: Yup.string(),
+	categoryId: Yup.string().required("Required"),
 });
 
-const CategoryFormContainer = ({
-	initialCategoryForm = {
+const ProductFormContainer = ({
+	initialProductForm = {
 		...initialFormValues,
 	},
 }) => {
 	const [loading, setLoading] = useState(false);
-	const [selectOptions, setSelectOptions] = useState([]);
+	const [selectCategoryOption, setSelectCategoryOptions] = useState([]);
+
+	const isUpdate = initialProductForm.id ? true : false;
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchDataAsync() {
-			let result = await getCategoriesOptionRequest("parent");
-			setSelectOptions(result.data);
+			let categoryResult = await getCategoriesOptionRequest("child");
+			setSelectCategoryOptions(categoryResult.data);
 		}
 
 		fetchDataAsync();
 	}, []);
 
-	const isUpdate = initialCategoryForm.id ? true : false;
-
-	const navigate = useNavigate();
-
 	const handleResult = (result, message) => {
 		if (result) {
 			NotificationManager.success(
-				`${isUpdate ? "Updated" : "Created"} Successful Category ${message}`,
+				`${isUpdate ? "Updated" : "Created"} Successful Product ${message}`,
 				`${isUpdate ? "Update" : "Create"} Successful`,
 				2000,
 			);
 
 			setTimeout(() => {
-				navigate(LIST_CATEGORY);
+				navigate(LIST_PRODUCT);
 			}, 1000);
 		} else {
 			NotificationManager.error(message, "Create failed", 2000);
 		}
 	};
 
-	const updateCategoryAsync = async (form) => {
-		console.log("update category async");
-		let data = await UpdateCategoryRequest(form.formValues);
+	const updateProductAsync = async (form) => {
+		let data = await UpdateProductRequest(form.formValues);
 		if (data) {
 			handleResult(true, data.name);
 		}
+		console.log("update product async");
 	};
 
-	const createCategoryAsync = async (form) => {
-		console.log("create category async");
-		let data = await createCategoryRequest(form.formValues);
+	const createProductAsync = async (form) => {
+		let data = await createProductRequest(form.formValues);
 		if (data) {
 			handleResult(true, data.name);
 		}
+		console.log("create product async");
 	};
-
+	const selectOptionsCategory = [];
+	getCategoriesAsync(selectOptionsCategory);
 	return (
 		<Formik
-			initialValues={initialCategoryForm}
+			initialValues={initialProductForm}
 			enableReinitialize
 			validationSchema={validationSchema}
 			onSubmit={(values) => {
@@ -86,9 +91,9 @@ const CategoryFormContainer = ({
 
 				setTimeout(() => {
 					if (isUpdate) {
-						updateCategoryAsync({ formValues: values });
+						updateProductAsync({ formValues: values });
 					} else {
-						createCategoryAsync({ formValues: values });
+						createProductAsync({ formValues: values });
 					}
 
 					setLoading(false);
@@ -100,17 +105,30 @@ const CategoryFormContainer = ({
 					<TextField
 						name="name"
 						label="Name"
-						placeholder="input category name"
-						isrequired="true"
+						placeholder="input product name"
+						isrequired
+					/>
+					<TextField
+						name="price"
+						label="Price"
+						placeholder="input product price"
+						isrequired
+					/>
+					<TextField
+						name="decreasedPrice"
+						label="Decrease Price"
+						placeholder="input product decrease price"
 					/>
 					<SelectField
-						name="parentId"
-						label="ParentId"
-						options={selectOptions.map((item) => {
+						name="categoryId"
+						label="CategoryId"
+						options={selectCategoryOption.map((item) => {
 							return { id: item.id, label: item.name, value: item.id };
 						})}
+						isrequired
 					/>
 					<br />
+
 					<div className="row">
 						<button
 							className="btn btn-danger col-lg-5 col-12"
@@ -126,7 +144,7 @@ const CategoryFormContainer = ({
 							<br />
 						</div>
 						<Link
-							to={LIST_CATEGORY}
+							to={LIST_PRODUCT}
 							className="btn btn-outline-secondary col-lg-5 col-12"
 						>
 							Cancel
@@ -138,4 +156,4 @@ const CategoryFormContainer = ({
 	);
 };
 
-export default CategoryFormContainer;
+export default ProductFormContainer;

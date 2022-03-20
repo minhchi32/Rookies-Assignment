@@ -4,30 +4,35 @@ import EditIcon from "@material-ui/icons/Edit";
 import { useNavigate } from "react-router";
 import ButtonIcon from "../../../Shared-Components/ButtonIcon";
 import { NotificationManager } from "react-notifications";
-import "../Category.css";
 
 import Table, { SortType } from "../../../Shared-Components/Table";
 import Info from "../Info";
-import { EDIT_CATEGORY_ID } from "../../../Constants/pages";
+import { EDIT_PRODUCT_ID } from "../../../Constants/pages";
 import ConfirmModal from "../../../Shared-Components/ConfirmModal";
 import { checkStatus } from "../../../Constants/Status/index"
-import { DisableCategoryRequest } from "../services/request";
+
+import { DisableProductRequest } from "../services/request";
 
 const columns = [
-	{ columnName: "id ", columnValue: "Id" },
-	{ columnName: "name ", columnValue: "Name" },
-	{ columnName: "status ", columnValue: "Status" },
+	{ columnName: "id", columnValue: "Id" },
+	{ columnName: "name", columnValue: "Name" },
+	{ columnName: "price", columnValue: "Price" },
+	{ columnName: "decrease price", columnValue: "DecreasedPrice" },
+	{ columnName: "category ID", columnValue: "CategoryID" },
+	{ columnName: "quantity sale", columnValue: "QuantitySale" },
+	{ columnName: "rate", columnValue: "rate" },
+	{ columnName: "status", columnValue: "Status" },
 ];
 
-const CategoryTable = ({
-	categories,
+const ProductTable = ({
+	products,
 	handlePage,
 	handleSort,
 	sortState,
 	fetchData,
 }) => {
 	const [showDetail, setShowDetail] = useState(false);
-	const [categoryDetail, setCategoryDetail] = useState(null);
+	const [productDetail, setProductDetail] = useState(null);
 	const [disableState, setDisable] = useState({
 		isOpen: false,
 		id: 0,
@@ -37,10 +42,10 @@ const CategoryTable = ({
 	});
 
 	const handleShowInfo = (id) => {
-		const category = categories?.items.find((item) => item.id === id);
+		const product = products?.items.find((item) => item.id === id);
 
-		if (category) {
-			setCategoryDetail(category);
+		if (product) {
+			setProductDetail(product);
 			setShowDetail(true);
 		}
 	};
@@ -50,7 +55,7 @@ const CategoryTable = ({
 			id,
 			isOpen: true,
 			title: "Are you sure",
-			message: "Do you want to disable this Categories?",
+			message: "Do you want to disable this Products?",
 			isDisable: true,
 		});
 	};
@@ -70,14 +75,14 @@ const CategoryTable = ({
 			handleCloseDisable();
 			await fetchData();
 			NotificationManager.success(
-				`Remove Category Successful`,
+				`Remove Product Successful`,
 				`Remove Successful`,
 				2000,
 			);
 		} else {
 			setDisable({
 				...disableState,
-				title: "Can not disable Category",
+				title: "Can not disable Product",
 				message,
 				isDisable: result,
 			});
@@ -85,7 +90,7 @@ const CategoryTable = ({
 	};
 
 	const handleConfirmDisable = async () => {
-		let isSuccess = await DisableCategoryRequest(disableState.id);
+		let isSuccess = await DisableProductRequest(disableState.id);
 		if (isSuccess) {
 			await handleResult(true, "");
 		}
@@ -97,11 +102,9 @@ const CategoryTable = ({
 
 	const navigate = useNavigate();
 	const handleEdit = (id) => {
-		const existCategory = categories?.items.find(
-			(item) => item.id === Number(id),
-		);
-		navigate(EDIT_CATEGORY_ID(id), {
-			state: { existCategory: existCategory },
+		const existProduct = products?.items.find((item) => item.id === Number(id));
+		navigate(EDIT_PRODUCT_ID(id), {
+			state: { existProduct: existProduct },
 		});
 	};
 
@@ -112,13 +115,13 @@ const CategoryTable = ({
 				handleSort={handleSort}
 				sortState={sortState}
 				page={{
-					pageIndex: categories?.pageIndex,
-					pageCount: categories?.pageCount,
+					pageIndex: products?.pageIndex,
+					pageCount: products?.pageCount,
 					handleChange: handlePage,
 				}}
 			>
-				{categories &&
-					categories?.items?.map((data, index) => (
+				{products &&
+					products?.items?.map((data, index) => (
 						<tr
 							key={index}
 							className=""
@@ -126,6 +129,11 @@ const CategoryTable = ({
 						>
 							<td>{data.id}</td>
 							<td>{data.name}</td>
+							<td>{data.price}</td>
+							<td>{data.decreasedPrice}</td>
+							<td>{data.categoryID}</td>
+							<td>{data.quantitySale}</td>
+							<td>{(data.totalPointRate/data.countRate).toFixed(1)}</td>
 							<td>{checkStatus(data.status)}</td>
 
 							<td>
@@ -148,8 +156,8 @@ const CategoryTable = ({
 						</tr>
 					))}
 			</Table>
-			{categoryDetail && showDetail && (
-				<Info category={categoryDetail} handleClose={handleCloseDetail} />
+			{productDetail && showDetail && (
+				<Info product={productDetail} handleClose={handleCloseDetail} />
 			)}
 			<ConfirmModal
 				title={disableState.title}
@@ -183,4 +191,4 @@ const CategoryTable = ({
 	);
 };
 
-export default CategoryTable;
+export default ProductTable;

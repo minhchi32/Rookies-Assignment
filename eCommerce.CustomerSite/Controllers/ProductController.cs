@@ -22,9 +22,13 @@ public class ProductController : Controller
             CategoryID = categoryID,
         };
         var product = await productService.GetAllByCategoryID(request);
-        ViewBag.Message = product.Items.Count() > 0 
-                            ? $"Tìm thấy {product.Items.Count()} sản phẩm" 
-                            : "Không tìm thấy sản phẩm";
+
+        if (product != null)
+            System.Diagnostics.Debug.WriteLine(product);
+        else
+            System.Diagnostics.Debug.WriteLine("product");
+            
+        ViewBag.Message = product.TotalRecord > 0 ? $"Tìm thấy {product.Items.Count()} sản phẩm" : "Không tìm thấy sản phẩm";
         return View(product);
     }
     public async Task<IActionResult> Detail(int productID, int colorID)

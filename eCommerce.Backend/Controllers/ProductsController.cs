@@ -11,7 +11,7 @@ public class ProductsController : Controller
         this.productService = productService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAll()
     {
         var products = await productService.GetAll();
@@ -25,11 +25,27 @@ public class ProductsController : Controller
         return Ok(products);
     }
 
-    [HttpGet("paging")]
-    public async Task<IActionResult> GetAllPaging([FromQuery] GetProductPagingRequest request)
+    // [HttpGet("paging")]
+    // public async Task<IActionResult> GetAllPaging([FromQuery] GetProductPagingRequest request)
+    // {
+    //     var products = await productService.GetAllByCategoryID(request);
+    //     return Ok(products);
+    // }
+
+    
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetProductPagingRequest request)
     {
-        var products = await productService.GetAllByCategoryID(request);
-        return Ok(products);
+        try
+        {
+            return Ok(await productService.GetAllByCategoryID(request));
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Error retrieving data from the database");
+        }
     }
 
     [HttpGet("{productID}/{colorID}")]
@@ -44,14 +60,12 @@ public class ProductsController : Controller
     public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var productID = await productService.Create(request);
-        if (productID == 0) return BadRequest();
-        var product = await productService.GetByID(productID);
-        return CreatedAtAction(nameof(GetByID), new { id = productID }, product);
+        var result = await productService.Create(request);
+        return Ok(result);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
+    [HttpPut("{productID}")]
+    public async Task<IActionResult> Update(int id, [FromForm] ProductUpdateRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         var result = await productService.Update(request);
@@ -59,7 +73,7 @@ public class ProductsController : Controller
         return Ok();
     }
 
-    [HttpPut("{productID}")]
+    [HttpDelete("{productID}")]
     public async Task<IActionResult> Delete(int productID)
     {
         var result = await productService.Delete(productID);

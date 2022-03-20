@@ -40,6 +40,18 @@ public class CategoriesController : Controller
         return Ok(product);
     }
 
+    [HttpGet("Option")]
+    public async Task<ActionResult<IEnumerable<CategoryVM>>> GetCategoriesOption(string getParam)
+    {
+        var data= await categoryService.GetCategoriesOption(getParam);
+        if(data==null){
+            return NotFound();
+        }
+        else{
+            return Ok(data);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
     {
