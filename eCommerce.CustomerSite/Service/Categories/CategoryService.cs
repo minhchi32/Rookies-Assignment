@@ -20,7 +20,7 @@ public class CategoryService : ICategoryService
     {
         var client = clientFactory.CreateClient();
         client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
-        var response = await client.GetAsync("/api/Categories");
+        var response = await client.GetAsync("/api/Categories/all");
         var body = await response.Content.ReadAsStringAsync();
         var categories = JsonConvert.DeserializeObject<List<CategoryVM>>(body);
         return categories;
@@ -31,13 +31,13 @@ public class CategoryService : ICategoryService
         throw new NotImplementedException();
     }
 
-    public async Task<PagedResult<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request)
+    public async Task<PagedModelDTO<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request)
     {
         var client = clientFactory.CreateClient();
         client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
         var response = await client.GetAsync($"/api/Categories/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}&CategoryID={request.CategoryID}");
         var body = await response.Content.ReadAsStringAsync();
-        var products = JsonConvert.DeserializeObject<PagedResult<ProductVM>>(body);
+        var products = JsonConvert.DeserializeObject<PagedModelDTO<ProductVM>>(body);
         return products;
     }
 }

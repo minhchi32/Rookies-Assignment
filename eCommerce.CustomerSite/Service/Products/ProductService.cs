@@ -25,13 +25,13 @@ public class ProductService : IProductService
         return products;
     }
 
-    public async Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
+    public async Task<PagedModelDTO<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
     {
         var client = clientFactory.CreateClient();
         client.BaseAddress = new Uri(configuration[ConfigurationConstants.BackendEndPoint]);
-        var response = await client.GetAsync($"/api/Products/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}&CategoryID={request.CategoryID}");
+        var response = await client.GetAsync($"/api/Products?PageIndex={request.PageIndex}&PageSize={request.PageSize}&CategoryID={request.CategoryID}");
         var body = await response.Content.ReadAsStringAsync();
-        var products = JsonConvert.DeserializeObject<PagedResult<ProductVM>>(body);
+        var products = JsonConvert.DeserializeObject<PagedModelDTO<ProductVM>>(body);
         return products;
 
     }

@@ -13,7 +13,6 @@ public class CategoryService : ICategoryService
         {
             Name = request.Name,
             ParentId = request.ParentId,
-            SeoTitle = request.SeoTitle,
             CreatedAt = DateTime.Now,
         };
         context.Categories.Add(category);
@@ -42,7 +41,6 @@ public class CategoryService : ICategoryService
             ID = category.ID,
             Name = category.Name,
             ParentId = category.ParentId,
-            SeoTitle = category.SeoTitle,
         };
     }
 
@@ -54,7 +52,6 @@ public class CategoryService : ICategoryService
 
         category.Name = request.Name;
         category.ParentId = request.ParentId;
-        category.SeoTitle = request.SeoTitle;
         category.Status = request.Status;
         category.ModifiedAt = DateTime.Now;
         context.Categories.Update(category);
@@ -62,7 +59,7 @@ public class CategoryService : ICategoryService
         return await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request)
+    public async Task<PagedModelDTO<ProductVM>> GetListProductCategoryID(GetProductPagingRequest request)
     {
         var result = await context.Products.Where(x => x.CategoryID == request.CategoryID && x.Status == Status.Show)
                                             .Include(x => x.ProductColors)
@@ -78,11 +75,9 @@ public class CategoryService : ICategoryService
                         {
                             ID = x.ID,
                             Name = x.Name,
-                            Description = x.Description,
                             Price = x.Price,
                             DecreasedPrice = x.DecreasedPrice,
                             CategoryID = x.CategoryID,
-                            SeoTitle = x.SeoTitle,
                             QuantitySale = x.QuantitySale,
                             TotalPointRate = x.TotalPointRate,
                             CountRate = x.CountRate,
@@ -110,7 +105,7 @@ public class CategoryService : ICategoryService
                                             }).ToList(),
                         }).ToList();
 
-        var pagedResult = new PagedResult<ProductVM>()
+        var pagedResult = new PagedModelDTO<ProductVM>()
         {
             TotalRecord = totalRow,
             PageIndex = request.PageIndex,
@@ -130,9 +125,65 @@ public class CategoryService : ICategoryService
             ID = x.ID,
             Name = x.Name,
             ParentId = x.ParentId,
-            SeoTitle = x.SeoTitle,
         }).ToList();
 
         return data;
+    }
+
+    public async Task<IEnumerable<CategoryVM>> GetCategoriesOption(string getParam)
+    {
+        //query
+        var query = await context.Categories.Where(x => x.Status == Status.Show).Take(100).ToListAsync();
+
+        //filter(get category child or parent)
+        if (getParam == "child")
+            query = query.Where(x => x.ParentId != null).ToList();
+        else if (getParam == "parent")
+            query = query.Where(x => x.ParentId == null).ToList();
+        return query.Select(x => new CategoryVM()
+        {
+            ID = x.ID,
+            Name = x.Name,
+        }).ToList();
+    }
+    public async Task<PagedModelDTO<CategoryVM>> GetAllWithPaging(PagedResultBase request)
+    {
+        var query = context.Categories.Where(x => x.Status == Status.Show)
+                                            .AsQueryable();
+        query = CategoryFilter(query, request);
+        var paged = await query.AsNoTracking()
+                                    .PaginateAsync(request);
+
+        var categoriesVM = paged.Items.Select(x => new CategoryVM()
+        {
+            ID = x.ID,
+            Name = x.Name,
+            ParentId = x.ParentId,
+            Status = x.Status,
+
+        }).ToList();
+
+        return new PagedModelDTO<CategoryVM>
+        {
+            PageIndex = paged.PageIndex,
+            // PageCount = paged.PageCount,
+            TotalRecord = paged.TotalRecord,
+            PageSize = request.PageSize,
+            Search = request.Search,
+            SortColumn = request.SortColumn,
+            SortOrder = request.SortOrder,
+            Items = categoriesVM
+        };
+    }
+
+    IQueryable<Category> CategoryFilter(IQueryable<Category> query, PagedResultBase request)
+    {
+        if (!String.IsNullOrEmpty(request.Search))
+        {
+            query = query.Where(b =>
+                b.Name.Contains(request.Search));
+        }
+
+        return query;
     }
 }

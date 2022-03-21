@@ -32,11 +32,9 @@ public class ProductService : IProductService
         var product = new Product()
         {
             Name = request.Name,
-            Description = request.Description,
             Price = request.Price,
             DecreasedPrice = request.DecreasedPrice,
             CategoryID = request.CategoryID,
-            SeoTitle = request.SeoTitle,
         };
         context.Products.Add(product);
         await context.SaveChangesAsync();
@@ -54,7 +52,7 @@ public class ProductService : IProductService
         return await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<ProductVM>> GetAllPaging(GetProductPagingRequest request)
+    public async Task<PagedModelDTO<ProductVM>> GetAllPaging(GetProductPagingRequest request)
     {
         var query = await context.Products.Where(x => x.Status == Status.Show).ToListAsync();
 
@@ -71,11 +69,9 @@ public class ProductService : IProductService
                         {
                             ID = x.ID,
                             Name = x.Name,
-                            Description = x.Description,
                             Price = x.Price,
                             DecreasedPrice = x.DecreasedPrice,
                             CategoryID = x.CategoryID,
-                            SeoTitle = x.SeoTitle,
                             QuantitySale = x.QuantitySale,
                             TotalPointRate = x.TotalPointRate,
                             CountRate = x.CountRate,
@@ -93,7 +89,7 @@ public class ProductService : IProductService
                         })
                         .ToList();
 
-        var pagedResult = new PagedResult<ProductVM>()
+        var pagedResult = new PagedModelDTO<ProductVM>()
         {
             TotalRecord = totalRow,
             PageIndex = request.PageIndex,
@@ -138,11 +134,9 @@ public class ProductService : IProductService
             {
                 ID = product.ID,
                 Name = product.Name,
-                Description = product.Description,
                 Price = product.Price,
                 DecreasedPrice = product.DecreasedPrice,
                 CategoryID = product.CategoryID,
-                SeoTitle = product.SeoTitle,
                 QuantitySale = product.QuantitySale,
                 TotalPointRate = product.TotalPointRate,
                 CountRate = product.CountRate,
@@ -159,11 +153,9 @@ public class ProductService : IProductService
             throw new NullReferenceException(MessageConstants.ProductNotExistID + request.ID);
 
         product.Name = request.Name;
-        product.Description = request.Description;
         product.Price = request.Price;
         product.DecreasedPrice = request.DecreasedPrice;
         product.CategoryID = request.CategoryID;
-        product.SeoTitle = request.SeoTitle;
         product.Status = request.Status;
         product.ModifiedAt = DateTime.Now;
         context.Products.Update(product);
@@ -183,11 +175,9 @@ public class ProductService : IProductService
         {
             ID = x.ID,
             Name = x.Name,
-            Description = x.Description,
             Price = x.Price,
             DecreasedPrice = x.DecreasedPrice,
             CategoryID = x.CategoryID,
-            SeoTitle = x.SeoTitle,
             QuantitySale = x.QuantitySale,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,
@@ -218,7 +208,7 @@ public class ProductService : IProductService
         return data;
     }
 
-    public async Task<PagedResult<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
+    public async Task<PagedModelDTO<ProductVM>> GetAllByCategoryID(GetProductPagingRequest request)
     {
         var result = await context.Products.Where(x => x.Status == Status.Show)
                                             .Include(x => x.ProductColors)
@@ -239,12 +229,11 @@ public class ProductService : IProductService
         {
             ID = x.ID,
             Name = x.Name,
-            Description = x.Description,
             Price = x.Price,
             DecreasedPrice = x.DecreasedPrice,
             CategoryID = x.CategoryID,
-            SeoTitle = x.SeoTitle,
             QuantitySale = x.QuantitySale,
+            Status = x.Status,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,
             ProductColors = x.ProductColors.Where(x => x.Status == Status.Show)
@@ -271,7 +260,7 @@ public class ProductService : IProductService
                                             }).ToList(),
         }).ToList();
 
-        var pagedResult = new PagedResult<ProductVM>()
+        var pagedResult = new PagedModelDTO<ProductVM>()
         {
             TotalRecord = totalRow,
             PageIndex = request.PageIndex,
@@ -295,11 +284,9 @@ public class ProductService : IProductService
         {
             ID = x.ID,
             Name = x.Name,
-            Description = x.Description,
             Price = x.Price,
             DecreasedPrice = x.DecreasedPrice,
             CategoryID = x.CategoryID,
-            SeoTitle = x.SeoTitle,
             QuantitySale = x.QuantitySale,
             TotalPointRate = x.TotalPointRate,
             CountRate = x.CountRate,

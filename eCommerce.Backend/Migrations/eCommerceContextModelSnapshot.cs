@@ -17,7 +17,7 @@ namespace eCommerce.Backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -131,7 +131,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(838));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 54, DateTimeKind.Local).AddTicks(44));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -146,10 +146,6 @@ namespace eCommerce.Backend.Migrations
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SeoTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -166,7 +162,6 @@ namespace eCommerce.Backend.Migrations
                             ID = 1,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo",
-                            SeoTitle = "ao",
                             Status = 0
                         },
                         new
@@ -174,7 +169,6 @@ namespace eCommerce.Backend.Migrations
                             ID = 2,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Quần",
-                            SeoTitle = "quan",
                             Status = 0
                         },
                         new
@@ -182,7 +176,6 @@ namespace eCommerce.Backend.Migrations
                             ID = 3,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Khác",
-                            SeoTitle = "khac",
                             Status = 0
                         },
                         new
@@ -191,7 +184,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo khoác",
                             ParentId = 1,
-                            SeoTitle = "ao-khoac",
                             Status = 0
                         },
                         new
@@ -200,7 +192,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo dài tay",
                             ParentId = 1,
-                            SeoTitle = "ao-dai-tay",
                             Status = 0
                         },
                         new
@@ -209,7 +200,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo Polo",
                             ParentId = 1,
-                            SeoTitle = "ao-polo",
                             Status = 0
                         },
                         new
@@ -218,7 +208,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo T-Shirt",
                             ParentId = 1,
-                            SeoTitle = "ao-t-shirt",
                             Status = 0
                         },
                         new
@@ -227,7 +216,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo sơ mi",
                             ParentId = 1,
-                            SeoTitle = "ao-so-mi",
                             Status = 0
                         },
                         new
@@ -236,7 +224,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo thể thao",
                             ParentId = 1,
-                            SeoTitle = "ao-the-thao",
                             Status = 0
                         },
                         new
@@ -245,7 +232,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Áo in hình",
                             ParentId = 1,
-                            SeoTitle = "ao-in-hinh",
                             Status = 0
                         },
                         new
@@ -254,7 +240,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Quần sọt",
                             ParentId = 2,
-                            SeoTitle = "quan-sot",
                             Status = 0
                         },
                         new
@@ -263,7 +248,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Quần dài",
                             ParentId = 2,
-                            SeoTitle = "quan-dai",
                             Status = 0
                         },
                         new
@@ -272,7 +256,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Quần lót nam",
                             ParentId = 2,
-                            SeoTitle = "quan-lot",
                             Status = 0
                         },
                         new
@@ -281,7 +264,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Tất (vớ)",
                             ParentId = 3,
-                            SeoTitle = "tat",
                             Status = 0
                         },
                         new
@@ -290,7 +272,6 @@ namespace eCommerce.Backend.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Phụ kiện",
                             ParentId = 3,
-                            SeoTitle = "phu-kien",
                             Status = 0
                         });
                 });
@@ -311,7 +292,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(2373));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 54, DateTimeKind.Local).AddTicks(1325));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -405,17 +386,13 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 589, DateTimeKind.Local).AddTicks(7414));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 54, DateTimeKind.Local).AddTicks(5737));
 
                     b.Property<decimal>("DecreasedPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -430,10 +407,6 @@ namespace eCommerce.Backend.Migrations
 
                     b.Property<int>("QuantitySale")
                         .HasColumnType("int");
-
-                    b.Property<string>("SeoTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
@@ -457,11 +430,9 @@ namespace eCommerce.Backend.Migrations
                             CountRate = 26,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DecreasedPrice = 399000m,
-                            Description = "",
                             Name = "Áo khoác đa năng cản gió và chống UV",
                             Price = 499000m,
                             QuantitySale = 970,
-                            SeoTitle = "ao-khoac-da-nang-kinh-chan-giot-ban-faceshield",
                             Status = 0,
                             TotalPointRate = 128
                         },
@@ -472,11 +443,9 @@ namespace eCommerce.Backend.Migrations
                             CountRate = 0,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DecreasedPrice = 0m,
-                            Description = "",
                             Name = "Áo thun nam Cotton Compact phiên bản Premium chống nhăn",
                             Price = 259000m,
                             QuantitySale = 0,
-                            SeoTitle = "ao-thun-nam-cotton-compact-chong-nhan",
                             Status = 0,
                             TotalPointRate = 0
                         });
@@ -493,7 +462,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(25));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 54, DateTimeKind.Local).AddTicks(8857));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -608,7 +577,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(3533));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 55, DateTimeKind.Local).AddTicks(2690));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -1011,7 +980,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(1791));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 55, DateTimeKind.Local).AddTicks(630));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -1399,7 +1368,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(4559));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 55, DateTimeKind.Local).AddTicks(3431));
 
                     b.Property<int>("Point")
                         .HasMaxLength(200)
@@ -1478,7 +1447,7 @@ namespace eCommerce.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 3, 14, 9, 22, 5, 590, DateTimeKind.Local).AddTicks(8787));
+                        .HasDefaultValue(new DateTime(2022, 3, 18, 12, 1, 3, 55, DateTimeKind.Local).AddTicks(6572));
 
                     b.Property<string>("LinkProduct")
                         .IsRequired()

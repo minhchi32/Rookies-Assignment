@@ -1,5 +1,5 @@
 using Microsoft.OpenApi.Models;
-
+var MyAllowSpecificOrigins = "AllowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 //Connect database
@@ -12,6 +12,7 @@ builder.Services.AddTransient<IFileStorageService, FileStorageService>();
 builder.Services.AddTransient<IProductColorService, ProductColorService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IRateService, RateService>();
+builder.Services.AddTransient<IAppUserService, AppUserService>();
 
 // Add services to the container.
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
@@ -29,6 +30,15 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins, builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,7 +53,9 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 }
-
+//app.UseHttpsRedirection();
+//app.UseStaticFiles();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();

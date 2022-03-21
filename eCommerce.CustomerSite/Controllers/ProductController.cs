@@ -15,12 +15,20 @@ public class ProductController : Controller
 
     public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 2, int categoryID = 0)
     {
-        var request = new GetProductPagingRequest(){
-            PageIndex =pageIndex,
+        var request = new GetProductPagingRequest()
+        {
+            PageIndex = pageIndex,
             PageSize = pageSize,
             CategoryID = categoryID,
         };
         var product = await productService.GetAllByCategoryID(request);
+
+        if (product != null)
+            System.Diagnostics.Debug.WriteLine(product);
+        else
+            System.Diagnostics.Debug.WriteLine("product");
+            
+        ViewBag.Message = product.TotalRecord > 0 ? $"Tìm thấy {product.Items.Count()} sản phẩm" : "Không tìm thấy sản phẩm";
         return View(product);
     }
     public async Task<IActionResult> Detail(int productID, int colorID)

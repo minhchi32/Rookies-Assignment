@@ -1,5 +1,5 @@
 ﻿@using eCommerce.Shared.DTO;
-@model PagedResult<eCommerce.Backend.ViewModel.Products.ProductVM>
+@model PagedModelDTO<eCommerce.Backend.ViewModel.Products.ProductVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,16 +9,8 @@
 <div class="container">
     <div class="row">
 
-        @{
-            if (Model.Items.Count() == 0)
-            {
-                <h6>Không tìm thấy sản phẩm</h6>
-            }
-            else
-            {
-                <h6>Tìm thấy @Model.Items.Count() sản phẩm</h6>
-            }
-        }
+        <h6>@ViewBag.Message</h6>
+        
         @await Component.InvokeAsync("ItemProduct", Model.Items)
     </div>
 </div>

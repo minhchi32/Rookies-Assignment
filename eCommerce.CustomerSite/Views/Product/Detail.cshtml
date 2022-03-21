@@ -58,9 +58,7 @@
                                 var path = pci1[i].PathImage;
                                 <li class="nav-item">
                                     <a class="nav-link @check" data-toggle="tab" href="#tabs-@i" role="tab">
-                                        <div class="product__thumb__pic set-bg" style="background-image:url(@path);"
-                                        data-setbg="@path">
-                                        </div>
+                                        <img src="@path" class="product__thumb__pic" asp-append-version="true"/>
                                     </a>
                                 </li>
                             }
@@ -124,7 +122,6 @@
                         {
                             <h3>@String.Format("{0:0,0}", Model.Price) đ</h3>
                         }
-                        <p>@Model.Description</p>
                         <div class="product__details__option">
                             <div class="product__details__option__size">
                                 <span>Size:</span>

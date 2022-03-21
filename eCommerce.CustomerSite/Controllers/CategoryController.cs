@@ -1,6 +1,5 @@
-﻿using eCommerce.Backend.Services.Categories;
-using eCommerce.Backend.ViewModel.Products;
-using eCommerce.CustomerSite.Service.Products;
+﻿using eCommerce.CustomerSite.Service.Categories;
+using eCommerce.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.CustomerSite.Controllers;
