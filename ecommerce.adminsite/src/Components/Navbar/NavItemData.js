@@ -22,4 +22,10 @@ export const NavItemData =[
         icon: <AiIcons.AiFillHome/>,
         cName: 'nav-text',
     },
+    {
+        title: 'AppUser',
+        path: '/appUser',
+        icon: <AiIcons.AiFillHome/>,
+        cName: 'nav-text',
+    },
 ]

@@ -14,5 +14,11 @@ export const CREATE_PRODUCT = '/create';
 export const EDIT_PRODUCT = '/edit/:id';
 export const EDIT_PRODUCT_ID = (id) => `/product/edit/${id}`;
 
+export const APPUSER = '/appUser/*';
+export const LIST_APPUSER = '/appUser';
+export const CREATE_APPUSER = '/create';
+export const EDIT_APPUSER = '/edit/:id';
+export const EDIT_APPUSER_ID = (id) => `/appUser/edit/${id}`;
+
 export const UNAUTHORIZE = '/unauthorize';
 export const NOTFOUND = '/notfound';

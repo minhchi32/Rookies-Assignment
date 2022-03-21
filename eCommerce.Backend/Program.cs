@@ -12,6 +12,7 @@ builder.Services.AddTransient<IFileStorageService, FileStorageService>();
 builder.Services.AddTransient<IProductColorService, ProductColorService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IRateService, RateService>();
+builder.Services.AddTransient<IAppUserService, AppUserService>();
 
 // Add services to the container.
 builder.Services.AddControllers().AddNewtonsoftJson(options =>

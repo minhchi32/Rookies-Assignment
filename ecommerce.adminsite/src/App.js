@@ -3,10 +3,11 @@ import "./App.css";
 import Home from "./Components/Home/Home";
 import Navbar from "./Components/Navbar";
 import { Route, Routes } from "react-router-dom";
-import { CATEGORY, PRODUCT } from "./Constants/pages";
+import { CATEGORY, PRODUCT, APPUSER } from "./Constants/pages";
 
 const Category = lazy(() => import("./Components/Category"));
 const Product = lazy(() => import("./Components/Product"));
+const AppUser = lazy(() => import("./Components/AppUser"));
 
 export default function App() {
 	return (
@@ -27,6 +28,14 @@ export default function App() {
 						element={
 							<React.Suspense fallback={<>...</>}>
 								<Product />
+							</React.Suspense>
+						}
+					/>
+					<Route
+						path={APPUSER}
+						element={
+							<React.Suspense fallback={<>...</>}>
+								<AppUser />
 							</React.Suspense>
 						}
 					/>
