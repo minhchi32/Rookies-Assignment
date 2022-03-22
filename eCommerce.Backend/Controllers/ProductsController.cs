@@ -49,7 +49,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet("{productID}/{colorID}")]
-    public async Task<IActionResult> GetByID(int productID, int colorID)
+    public async Task<IActionResult> GetByID(int productID, int colorID = 0)
     {
         var product = await productService.GetByID(productID, colorID);
         if (product == null) return BadRequest(MessageConstants.ProductNotExist);
@@ -68,7 +68,7 @@ public class ProductsController : Controller
     public async Task<IActionResult> Update(int id, [FromForm] ProductUpdateRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var result = await productService.Update(request);
+        var result = await productService.Update(id, request);
         if (result == 0) return BadRequest();
         return Ok();
     }
