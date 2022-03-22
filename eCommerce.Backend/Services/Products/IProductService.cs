@@ -2,7 +2,7 @@ namespace eCommerce.Backend.Services.Products;
 public interface IProductService
 {
     Task<int> Create(ProductCreateRequest request);
-    Task<int> Update(ProductUpdateRequest request);
+    Task<int> Update(int id, ProductUpdateRequest request);
     Task<int> Delete(int id);
     Task<ProductVM> GetByID(int productID, int colorID = 0);
     Task<bool> AddQuantitySale(int productID);

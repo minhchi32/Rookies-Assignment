@@ -146,7 +146,7 @@ public class ProductService : IProductService
         return null;
     }
 
-    public async Task<int> Update(ProductUpdateRequest request)
+    public async Task<int> Update(int id, ProductUpdateRequest request)
     {
         var product = await context.Products.FindAsync(request.ID);
         if (product == null)
@@ -248,14 +248,14 @@ public class ProductService : IProductService
                                                     ID = pci.ID,
                                                     Name = pci.Name,
                                                     PathImage = pci.PathImage,
-                                                    ProductColorID = pci.ProductColorID,
+                                                    ProductColorID = pc.ID,
                                                 }).ToList(),
-                                                ProductColorSizes = pc.ProductColorSizes.Select(pcs => new ProductColorSizeVM()
+                                                ProductColorSizes = pc.ProductColorSizes.Where(pcs=>pcs.ProductColorID==pc.ID).Select(pcs => new ProductColorSizeVM()
                                                 {
                                                     ID = pcs.ID,
                                                     Name = pcs.Name,
                                                     Quantity = pcs.Quantity,
-                                                    ProductColorID = pcs.ProductColorID,
+                                                    ProductColorID = pc.ID,
                                                 }).ToList(),
                                             }).ToList(),
         }).ToList();
